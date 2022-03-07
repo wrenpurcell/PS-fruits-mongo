@@ -1,6 +1,10 @@
-const express = require('express');
-const app = express();
-const fruits = require('./models/fruits.js'); 
+require('dotenv').config()
+const express = require('express')
+const app = express()
+const fruits = require('./models/fruits.js')
+const mongoose = require('mongoose')
+const Fruit = require('./models/fruits.js')
+
 
 //MUST BE FIRST 
 //middleware
@@ -20,21 +24,24 @@ app.get('/fruits/new', (req,res)=>{
   res.render('New')
 })
 
-//index route
+//index route : Show ALL 
 app.get('/fruits', function (req, res) {
-  res.render("Index", { fruits: fruits });
-}); 
+  Fruit.find({}, (error, allFruits) => {
+    res.render('Index', {
+      fruits: allFruits
+    })
+  })
+})
 
 //show route 
-app.get('/fruits/:indexOfFruitsArray', function(req, res){
-  res.render('Show', {//second param must be an object
-    fruit: fruits[req.params.indexOfFruitsArray] 
-    //there will be a variable available inside the ejs file called fruit, its value is fruits[req.params.indexOfFruitsArray]
+app.get('/fruits/:id', function(req, res){
+  Fruit.findById(req.params.id, (err, foundFruit)=>{
+    res.render('Show', {fruit:foundFruit})
   })
 })
 
 //form POST 
-app.post('/fruits', (req, res)=>{
+app.post('/fruits/', (req, res)=>{
   if(req.body.readyToEat === 'on'){//if checked, req.body.readyToEat is set to 'on'
     req.body.readyToEat = true //set equal to true so it doesn't get passed as 'on' 
   }
@@ -42,18 +49,24 @@ app.post('/fruits', (req, res)=>{
     //if it is not checked req.body.readyToEat is undefined
     req.body.readyToEat = false
   }
-  fruits.push(req.body)
+  Fruit.create(req.body, (error, createdFruit)=>{
+    res.redirect('/fruits')
+  })
   
   console.log(fruits)
   console.log(req.body)
   
 
-  res.redirect('/fruits') //send the user back to /fruits
+  // res.redirect('/fruits') //send the user back to /fruits
+})
+
+//connect to mongo database
+mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true });
+mongoose.connection.once('open', ()=> {
+    console.log('connected to mongo')
 })
 
 
-
-
 app.listen(3000, () => {
-  console.log("listening");
-});
+  console.log("listening")
+})

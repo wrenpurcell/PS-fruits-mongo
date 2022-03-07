@@ -1,36 +1,28 @@
 const React = require('react')
 
 class Index extends React.Component {
-  render(){
-    //destructuring
-    const { fruits } = this.props 
-    return(
+  render() {
+    return (
       <div>
-        <h1>Fruits Index Page</h1>
+        <h1>Fruits index page</h1>
         <ul>
-          {fruits.map((fruit, i)=>{
-            return(
+          {
+            this.props.fruits.map((fruit, i)=>{
               <li>
-                The {' '} 
-                <a href={`/fruits/${i}`}>
-                  {fruit.name}
-                </a>{' '}
-                is {fruit.color}<br></br>
-                {fruit.readyToEat
-                  ? `It is ready to eat`
-                  : `It is not ready to eat...cant touch this`
-                }
-                <br />
-
+                The <a href={`fruits/${fruit.id}`}>{fruit.name}</a>
+                 { fruit.name } is { fruit.color}
+                
+                {fruit.readyToEat} ? `It is ready to eat` : `It is not ready to eat`
               </li>
-            )
-          })}
+            })
+          }
         </ul>
         <nav>
-          <a href="/fruits/new">Create A New Fruit</a>
+          <a href='/fruits/new'>Create a new fruit</a>
         </nav>
       </div>
     )
+   
   }
 }
 module.exports = Index
