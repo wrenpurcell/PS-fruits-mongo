@@ -13,7 +13,7 @@ class Index extends React.Component {
                 The <a href={`/fruits/${fruit.id}`}> 
                 {fruit.name}</a>
 
-                 {`is `} { fruit.color}
+                 {`is `} { fruit.color }
                 
                 {fruit.readyToEat ? ` It is ready to eat` : `It is not ready to eat`}
               </li>

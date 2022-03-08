@@ -19,6 +19,28 @@ app.use(express.urlencoded({extened:false}))
 app.set('view engine', 'jsx')
 app.engine('jsx', require('express-react-views').createEngine())
 
+//create seed data to populate database 
+app.get('/fruits/seed', (req, res)=>{
+  Fruit.create([
+      {
+          name:'grapefruit',
+          color:'pink',
+          readyToEat:true
+      },
+      {
+          name:'grape',
+          color:'purple',
+          readyToEat:false
+      },
+      {
+          name:'avocado',
+          color:'green',
+          readyToEat:true
+      }
+  ], (err, data)=>{
+      res.redirect('/fruits');
+  })
+});
 
 //index route : Show ALL 
 app.get('/fruits', function (req, res) {
@@ -56,9 +78,6 @@ app.post('/fruits/', (req, res)=>{
   
   console.log(fruits)
   console.log(req.body)
-  
-
-  // res.redirect('/fruits') //send the user back to /fruits
 })
 
 //connect to mongo database
