@@ -19,10 +19,6 @@ app.use(express.urlencoded({extened:false}))
 app.set('view engine', 'jsx')
 app.engine('jsx', require('express-react-views').createEngine())
 
-//create a page that will allow us to create a new fruit 
-app.get('/fruits/new', (req,res)=>{
-  res.render('New')
-})
 
 //index route : Show ALL 
 app.get('/fruits', function (req, res) {
@@ -31,6 +27,11 @@ app.get('/fruits', function (req, res) {
       fruits: allFruits
     })
   })
+})
+
+//create a page that will allow us to create a new fruit 
+app.get('/fruits/new', (req,res)=>{
+  res.render('New')
 })
 
 //show route 
