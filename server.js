@@ -1,4 +1,4 @@
-require('dotenv').config()
+require('dotenv').config({ path: '.env' })
 const express = require('express')
 const app = express()
 const fruits = require('./models/fruits.js')
@@ -13,7 +13,7 @@ app.use((req, res, next)=>{
   next()
 })
 //keep this near the top 
-app.use(express.urlencoded({extened:false}))
+app.use(express.urlencoded({extended:true}))
 
 //set up view engine above routes
 app.set('view engine', 'jsx')
@@ -81,7 +81,7 @@ app.post('/fruits/', (req, res)=>{
 })
 
 //connect to mongo database
-mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true });
+mongoose.connect(`mongodb+srv://wpurcell:Babbyb0p@tt-mern.5ekeo.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`, { useNewUrlParser: true, useUnifiedTopology: true });
 mongoose.connection.once('open', ()=> {
     console.log('connected to mongo')
 })
