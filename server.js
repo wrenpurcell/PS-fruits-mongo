@@ -4,6 +4,7 @@ const app = express()
 const fruits = require('./models/fruits.js')
 const mongoose = require('mongoose')
 const Fruit = require('./models/fruits.js')
+const PORT = process.env.PORT || 3000;
 
 
 //MUST BE FIRST 
@@ -79,14 +80,14 @@ app.post('/fruits/', (req, res)=>{
   console.log(fruits)
   console.log(req.body)
 })
-
+//`mongodb+srv://wpurcell:Babbyb0p@tt-mern.5ekeo.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`
 //connect to mongo database
-mongoose.connect(`mongodb+srv://wpurcell:Babbyb0p@tt-mern.5ekeo.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`, { useNewUrlParser: true, useUnifiedTopology: true });
+mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true });
 mongoose.connection.once('open', ()=> {
     console.log('connected to mongo')
 })
 
 
-app.listen(3000, () => {
+app.listen(PORT, () => {
   console.log("listening")
 })
